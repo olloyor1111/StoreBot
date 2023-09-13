@@ -53,6 +53,29 @@ class Database:
         """
         await self.execute(sql, execute=True)
 
+    async def create_table_cats(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Categories (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        parent_id BIGINT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+
+    async def create_table_products(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Products (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        image_url VARCHAR(255) NOT NULL,
+        price NUMERIC NOT NULL,
+        category_id BIGINT NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+
     @staticmethod
     def format_args(sql, parameters: dict):
         sql += " AND ".join(
@@ -66,6 +89,10 @@ class Database:
 
     async def select_all_users(self):
         sql = "SELECT * FROM Users"
+        return await self.execute(sql, fetch=True)
+    
+    async def select_all_cats(self):
+        sql = "SELECT * FROM Categories;"
         return await self.execute(sql, fetch=True)
 
     async def select_user(self, **kwargs):
