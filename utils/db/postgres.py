@@ -92,11 +92,24 @@ class Database:
         return await self.execute(sql, fetch=True)
     
     async def select_all_cats(self):
-        sql = "SELECT * FROM Categories;"
+        sql = "SELECT * FROM Categories WHERE parent_id IS NULL;"
         return await self.execute(sql, fetch=True)
+    
+    async def select_cats_by_parent_id(self, parent_id):
+        sql = "SELECT * FROM Categories WHERE parent_id=$1;"
+        return await self.execute(sql, parent_id, fetch=True)
+    
+    async def select_product_by_category(self, category_id):
+        sql = "SELECT * FROM Products WHERE category_id=$1;"
+        return await self.execute(sql, category_id, fetch=True)
 
     async def select_user(self, **kwargs):
         sql = "SELECT * FROM Users WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
+    
+    async def select_category(self, **kwargs):
+        sql = "SELECT * FROM Categories WHERE "
         sql, parameters = self.format_args(sql, parameters=kwargs)
         return await self.execute(sql, *parameters, fetchrow=True)
 
