@@ -18,6 +18,11 @@ async def do_start(message: types.Message, state: FSMContext):
         await db.add_user(telegram_id=telegram_id, full_name=full_name, username=username)
     except Exception as error:
         logger.info(error)
+    user = await db.select_user(telegram_id=telegram_id)
+    if user:
+        cart = await db.select_cart(user_id=user["id"])
+        if cart is None:
+            await db.add_cart(user_id=user["id"])
     cats = await db.select_all_cats()
     markup = get_cats_markup(cats)
     await message.answer(f"Assalomu alaykum {full_name}!", reply_markup=markup)

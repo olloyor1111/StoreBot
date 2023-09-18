@@ -18,5 +18,6 @@ async def all_cats(message: types.Message, state: FSMContext):
         else:
             products = await db.select_product_by_category(category_id=category["id"])
             await message.answer(f"Siz {category['name']} bo'limini tanladingiz", reply_markup=get_cats_markup(cats=products, back=True))
+            await state.set_state(StoreStates.product)
     else:
         await message.answer(f"Iltimos, quyidagi bo'limlardan birini tanlang 🔽")

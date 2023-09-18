@@ -76,6 +76,26 @@ class Database:
         """
         await self.execute(sql, execute=True)
 
+    async def create_table_carts(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Cart (
+        id SERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+    
+    async def create_table_cart_items(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS CartItem (
+        id SERIAL PRIMARY KEY,
+        cart_id BIGINT NOT NULL,
+        product_id BIGINT NOT NULL,
+        quantity BIGINT NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+
     @staticmethod
     def format_args(sql, parameters: dict):
         sql += " AND ".join(
@@ -86,6 +106,14 @@ class Database:
     async def add_user(self, full_name, username, telegram_id):
         sql = "INSERT INTO users (full_name, username, telegram_id) VALUES($1, $2, $3) returning *"
         return await self.execute(sql, full_name, username, telegram_id, fetchrow=True)
+    
+    async def add_cart(self, user_id):
+        sql = "INSERT INTO Cart (user_id) VALUES($1) returning *"
+        return await self.execute(sql, user_id, fetchrow=True)
+    
+    async def add_cart_items(self, cart_id, product_id, quantity):
+        sql = "INSERT INTO CartItem (cart_id, product_id, quantity) VALUES($1, $2, $3) returning *"
+        return await self.execute(sql, cart_id, product_id, quantity, fetchrow=True)
 
     async def select_all_users(self):
         sql = "SELECT * FROM Users"
@@ -108,8 +136,23 @@ class Database:
         sql, parameters = self.format_args(sql, parameters=kwargs)
         return await self.execute(sql, *parameters, fetchrow=True)
     
+    async def select_cart(self, **kwargs):
+        sql = "SELECT * FROM Cart WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
+    
+    async def select_cart_item(self, **kwargs):
+        sql = "SELECT * FROM CartItem WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
+    
     async def select_category(self, **kwargs):
         sql = "SELECT * FROM Categories WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
+    
+    async def select_product(self, **kwargs):
+        sql = "SELECT * FROM Products WHERE "
         sql, parameters = self.format_args(sql, parameters=kwargs)
         return await self.execute(sql, *parameters, fetchrow=True)
 
@@ -120,6 +163,10 @@ class Database:
     async def update_user_username(self, username, telegram_id):
         sql = "UPDATE Users SET username=$1 WHERE telegram_id=$2"
         return await self.execute(sql, username, telegram_id, execute=True)
+    
+    async def update_cart_item_quantity(self, new_quantity, cart_id, product_id):
+        sql = "UPDATE CartItem SET quantity=$1 WHERE cart_id=$2 AND product_id=$3"
+        return await self.execute(sql, new_quantity, cart_id, product_id, execute=True)
 
     async def delete_users(self):
         await self.execute("DELETE FROM Users WHERE TRUE", execute=True)

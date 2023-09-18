@@ -41,9 +41,11 @@ async def database_connected():
     # Ma'lumotlar bazasini yaratamiz:
     await db.create()
     # await db.drop_users()
-    await db.create_table_users()
-    await db.create_table_cats()
-    await db.create_table_products()
+    # await db.create_table_users()
+    # await db.create_table_cats()
+    # await db.create_table_products()
+    await db.create_table_carts()
+    await db.create_table_cart_items()
 
 
 async def aiogram_on_startup_polling(dispatcher: Dispatcher, bot: Bot) -> None:

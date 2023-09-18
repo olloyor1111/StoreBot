@@ -13,7 +13,17 @@ def get_cats_markup(cats, back=False) -> ReplyKeyboardMarkup:
             keyboards.append(rows[index - 1:index + 1])
         except IndexError:
             keyboards.append(rows[index - 1:])
+    keyboards.append([KeyboardButton(text="📥 Savatcha"), KeyboardButton(text="🛒 Rasmiylashtirish")])
     if back:
         keyboards.append([KeyboardButton(text="⬅️ Orqaga")])
     kb = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=keyboards)
     return kb
+
+
+def get_numbers(number=9):
+    kb = ReplyKeyboardBuilder()
+    for i in range(1, number + 1):
+        kb.add(KeyboardButton(text=str(i)))
+    kb.add(KeyboardButton(text="🏠 Bosh menyu"), KeyboardButton(text="⬅️ Orqaga"))
+    kb.adjust(3)
+    return kb.as_markup(reply_markup=True)
