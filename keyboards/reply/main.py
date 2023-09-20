@@ -27,3 +27,21 @@ def get_numbers(number=9):
     kb.add(KeyboardButton(text="🏠 Bosh menyu"), KeyboardButton(text="⬅️ Orqaga"))
     kb.adjust(3)
     return kb.as_markup(reply_markup=True)
+
+
+def phone_markup():
+    kb = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=[[
+        KeyboardButton(text="📱 Telefon raqamni tasdiqlash", request_contact=True)
+    ], [
+        KeyboardButton(text="⬅️ Orqaga")
+    ]])
+    return kb
+
+
+def get_location():
+    kb = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=[[
+        KeyboardButton(text="📍 Joylashuvni ulashish", request_location=True)
+    ], [
+        KeyboardButton(text="⬅️ Orqaga")
+    ]])
+    return kb

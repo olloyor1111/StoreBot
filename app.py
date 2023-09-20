@@ -44,8 +44,10 @@ async def database_connected():
     # await db.create_table_users()
     # await db.create_table_cats()
     # await db.create_table_products()
-    await db.create_table_carts()
-    await db.create_table_cart_items()
+    # await db.create_table_carts()
+    # await db.create_table_cart_items()
+    await db.create_table_orders()
+    await db.create_table_order_item()
 
 
 async def aiogram_on_startup_polling(dispatcher: Dispatcher, bot: Bot) -> None:

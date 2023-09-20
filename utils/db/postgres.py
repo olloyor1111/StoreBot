@@ -96,6 +96,32 @@ class Database:
         """
         await self.execute(sql, execute=True)
 
+    async def create_table_orders(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Orders (
+        id SERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        paid BOOLEAN NOT NULL DEFAULT FALSE,
+        total_price NUMERIC NOT NULL,
+        lat REAL NOT NULL,
+        lon REAL NOT NULL,
+        phone VARCHAR(20) NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+
+    async def create_table_order_item(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS OrderItem (
+        id SERIAL PRIMARY KEY,
+        order_id BIGINT NOT NULL,
+        product_id BIGINT NOT NULL,
+        quantity BIGINT NOT NULL,
+        price NUMERIC NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)
+
     @staticmethod
     def format_args(sql, parameters: dict):
         sql += " AND ".join(
@@ -111,6 +137,14 @@ class Database:
         sql = "INSERT INTO Cart (user_id) VALUES($1) returning *"
         return await self.execute(sql, user_id, fetchrow=True)
     
+    async def add_order(self, user_id, paid, total_price, lat, lon, phone_number):
+        sql = "INSERT INTO Orders (user_id, paid, total_price, lat, lon, phone) VALUES($1, $2, $3, $4, $5, $6) returning *"
+        return await self.execute(sql, user_id, paid, total_price, lat, lon, phone_number, fetchrow=True)
+
+    async def add_order_item(self, order_id, product_id, quantity, price):
+        sql = "INSERT INTO OrderItem (order_id, product_id, quantity, price) VALUES($1, $2, $3, $4) returning *"
+        return await self.execute(sql, order_id, product_id, quantity, price, fetchrow=True)
+
     async def add_cart_items(self, cart_id, product_id, quantity):
         sql = "INSERT INTO CartItem (cart_id, product_id, quantity) VALUES($1, $2, $3) returning *"
         return await self.execute(sql, cart_id, product_id, quantity, fetchrow=True)
@@ -137,6 +171,11 @@ class Database:
 
     async def select_user(self, **kwargs):
         sql = "SELECT * FROM Users WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
+    
+    async def select_order(self, **kwargs):
+        sql = "SELECT * FROM Orders WHERE "
         sql, parameters = self.format_args(sql, parameters=kwargs)
         return await self.execute(sql, *parameters, fetchrow=True)
     

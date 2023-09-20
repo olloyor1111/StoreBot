@@ -24,3 +24,13 @@ async def get_cart_detail_text(cart_items):
         total_price += price
     message += f"\n<b>Umumiy: {format_price(float(total_price))} so'm</b>"
     return message
+
+
+async def get_total_price(cart_items):
+    total_price = 0
+    for cart_item in cart_items:
+        product = await db.select_product(id=cart_item["product_id"])
+        price = product["price"] * cart_item["quantity"]
+        total_price += price
+
+    return total_price
