@@ -210,6 +210,10 @@ class Database:
     async def update_cart_item_quantity(self, new_quantity, cart_id, product_id):
         sql = "UPDATE CartItem SET quantity=$1 WHERE cart_id=$2 AND product_id=$3"
         return await self.execute(sql, new_quantity, cart_id, product_id, execute=True)
+    
+    async def update_order_paid_status(self, order_id, paid=True):
+        sql = "UPDATE Orders SET paid=$1 WHERE id=$2"
+        return await self.execute(sql, paid, order_id, execute=True)
 
     async def delete_users(self):
         await self.execute("DELETE FROM Users WHERE TRUE", execute=True)
