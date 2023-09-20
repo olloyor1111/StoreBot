@@ -123,6 +123,10 @@ class Database:
         sql = "SELECT * FROM Categories WHERE parent_id IS NULL;"
         return await self.execute(sql, fetch=True)
     
+    async def select_cart_items(self, cart_id):
+        sql = "SELECT * FROM CartItem WHERE cart_id=$1;"
+        return await self.execute(sql, cart_id, fetch=True)
+    
     async def select_cats_by_parent_id(self, parent_id):
         sql = "SELECT * FROM Categories WHERE parent_id=$1;"
         return await self.execute(sql, parent_id, fetch=True)
@@ -170,6 +174,12 @@ class Database:
 
     async def delete_users(self):
         await self.execute("DELETE FROM Users WHERE TRUE", execute=True)
+
+    async def delete_cart_item(self, cart_item):
+        await self.execute("DELETE FROM CartItem WHERE id=$1;", cart_item, execute=True)
+
+    async def clear_cart(self, cart_id):
+        await self.execute("DELETE FROM CartItem WHERE cart_id=$1;", cart_id, execute=True)
 
     async def drop_users(self):
         await self.execute("DROP TABLE Users", execute=True)
