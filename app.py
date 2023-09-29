@@ -60,7 +60,7 @@ async def aiogram_on_startup_polling(dispatcher: Dispatcher, bot: Bot) -> None:
 
 
     # add_category_to_db()
-    add_products_to_db()
+    # add_products_to_db()
 
     logger.info("Database inserted categories data")
 
