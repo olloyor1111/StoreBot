@@ -156,9 +156,9 @@ def add_category_to_db():
 
 products = [
     {
-        "name": " Lenovo IdeaPad 3 15IAU7 82RK00KYRK",
+        "name": " Lenovo IdeaPad 3 15IAU7 82RK00KYR",
         "description": "Бренд - Lenovo\nЧастота обновления экрана - 60 Гц\nТип процессораi3-1215U\nДиагональ экрана - 15.6\nUHD Graphics ",
-        "image_url": "https://mini-io-api.texnomart.uz/catalog/product/3548/354887/186579/483460ea-e93b-4401-8820-b78e06e4d9f8.jpg",
+        "image_url": "https://mini-io-api.texnomart.uz/catalog/product/1014/101475/179610/cdef156d-336a-4a85-bcf6-44e043fa142a.jpg",
         "price": 6700000,
         "category_id": 18
     },
@@ -172,7 +172,7 @@ products = [
     {
         "name": "Lenovo ThinkBook 15 G2ITL 20VE00G4RU",
         "description": "Бренд - Lenovo\nРазрешение экрана - 1920x1080\nТип процессора - i3-1115G4\nДиагональ экрана - 15.6\nГрафический контроллер - Iris Xe Graphics",
-        "image_url": "https://images.uzum.uz/ck1guakjvf2qegt3ku30/original.jpg",
+        "image_url": "https://mini-io-api.texnomart.uz/catalog/product/1014/101475/179610/cdef156d-336a-4a85-bcf6-44e043fa142a.jpg",
         "price": 7749000,
         "category_id": 20
     },
@@ -268,17 +268,17 @@ products = [
         "category_id": 12
     },
     {
-        "name": "Беспроводные наушники JBL 881A, с шумоподавлением и слотом для карты Micro SD",
+        "name": "Принтер HP 107w 4ZB78A B19",
         "description": "Тип печати - Черно-белая\nТехнология печати - Лазерная\nОбласть применения - Cвой собственный",
         "image_url": "https://mini-io-api.texnomart.uz/catalog/product/1014/101482/179643/b13719f7-fb9a-4d29-846b-0cd5af8c151d.jpg",
-        "price": 2275000,
+        "price": 3018000,
         "category_id": 29
     },
     {
-        "name": "Беспроводные наушники JBL 881A, с шумоподавлением и слотом для карты Micro SD",
+        "name": "Принтер Canon PIXMA G540",
         "description": "Тип печати -Цветная\nТехнология печати - Термическая струйная\nОбласть применения - Cвой собственный",
         "image_url": "https://mini-io-api.texnomart.uz/catalog/product/807/80754/155654/c7702ab2-9905-4988-8a4c-acd116033ec0.jpg",
-        "price": 4000000,
+        "price": 2400000,
         "category_id": 30
     },
     {
